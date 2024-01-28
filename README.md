@@ -1,1 +1,248 @@
 # Ansible-refactoring
+
+## Jenkins job enhancement
+
+# SAVING SPACE ON THE SERVER
+
+## Install pluggings on jenkins without starting jenkins
+
+## Procedure
+
+Jenkins>manage jenkins>manage plugins> then 
+AVailable
+search copy artifacts
+ Trigger as per the existing project which is ansible 
+nunmber of builds
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/fee0ffa0-d749-4fc2-a2ac-e6c03a31de58)
+
+ end result
+ 
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9b649b95-df26-42b6-b927-20d3eed46bf0)
+
+ All files will now appear on the /home/ubuntu/ansible-config-artifact
+ 
+ and will be updated with every commit you make on the main branch
+
+
+# created artifact directory
+ 
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/ec3a57a4-4df9-4b56-aa94-eac63e11028f)
+
+
+# IMPORT PLAYBOOKS
+
+ ## Refactoring Ansible code  by importing playbooks into site.yml
+
+  Create refactor branch where all of the project wiil  be running.
+
+   In playbook, create a folder and name it site.yml which will act as an entry/parent to all other playbooks. (point to 
+   
+   all other configurations) including common.yml
+
+ Create a folder  called Static-assisgnments  n the root of the repository where all the children play books will be stored
+ 
+ for easy organisation of work
+
+ move  common.yml file to static- assignments folder created earlier
+
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/f8f5294c-0dae-4387-9b2a-2cb7cfda77d3)
+
+
+ import common.yml playbook to site.yml
+ ---
+- hosts: all
+- import_playbook: ../static-assignments/common.yml
+
+   ├── static-assignments
+│   └── common.yml
+├── inventory
+    └── dev
+    └── stage
+    └── uat
+    └── prod
+└── playbooks
+    └── site.yml
+
+   Create a file common-del.yml for deletion of wireshark using the below playbook configuration.
+
+---
+- name: update web, nfs and db servers
+  hosts: webservers, nfs, db
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  tasks:
+  - name: delete wireshark
+    apt:
+      name: wireshark-qt
+      state: absent
+      autoremove: yes
+      purge: yes
+      autoclean: yes
+
+      
+- name: update LB server
+  hosts: lb
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  tasks:
+  - name: delete wireshark
+    apt:
+      name: wireshark-qt
+      state: absent
+      autoremove: yes
+      purge: yes
+      autoclean: yes
+
+ Run the command below to ensure wireshark has ben deleted
+ 
+ cd /home/ubuntu/ansible-config-mgt/
+
+ansible-playbook -i inventory/dev.yml playbooks/site.yaml
+
+ wireshark --version
+ 
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/4be89583-dffd-4971-9460-e2ca0ba38494)
+
+ # Configure uat webserver with a role webserver
+ 
+ create 2 webserverscd
+
+  create a roles directory  in the ansible-config-mgt then inititialise webserver 
+  
+mkdir roles
+cd roles
+ansible-galaxy init webserver
+
+ Expected structure
+ 
+└── webserver
+    ├── README.md
+    ├── defaults
+    │   └── main.yml
+    ├── files
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── tasks
+    │   └── main.yml
+    ├── templates
+    ├── tests
+    │   ├── inventory
+    │   └── test.yml
+    └── vars
+        └── main.yml
+
+  Remove uneccessary files and you remain withte below structure
+└── webserver
+    ├── README.md
+    ├── defaults
+    │   └── main.yml
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── tasks
+    │   └── main.yml
+    └── templates
+
+ the above configuration as seen on the jump server 
+ 
+    ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/5816fa76-c487-4861-8ed9-e76ed24f9d19)
+
+
+   update your uat.yml to set up the 2 uat webservers
+
+   [uat-webservers]
+<Web1-UAT-Server-Private-IP-Address> ansible_ssh_user='ubuntu'/or ec2-user
+
+<Web2-UAT-Server-Private-IP-Address> ansible_ssh_user='ec2-user'OR ubuntu
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9ff5b07f-08a4-4bc9-8f7c-bbfa574983e4)
+
+ run vi /etc/ansible/ansible.cfg
+
+ provide full patht to your role directory  so as ANSIBLE CAN KNOW WHERE TO FINF CONFIGURED ROLES
+
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/73633142-dc12-4111-823c-aec2033de769)
+
+ 
+ -config-mgt/role
+ CONFIGURE THE main.yml file in the task directory
+
+  Run the script below to clone into git hub and install apache 
+  
+ ---
+- name: install apache
+  become: true
+  ansible.builtin.yum:
+    name: "httpd"
+    state: present
+
+- name: install git
+  become: true
+  ansible.builtin.yum:
+    name: "git"
+    state: present
+
+- name: clone a repo
+  become: true
+  ansible.builtin.git:
+    repo: https://github.com/<your-name>/tooling.git
+    dest: /var/www/html
+    force: yes
+
+- name: copy html content to one level up
+  become: true
+  command: cp -r /var/www/html/html/ /var/www/
+
+- name: Start service httpd, if not started
+  become: true
+  ansible.builtin.service:
+    name: httpd
+    state: started
+
+- name: recursively remove /var/www/html/html/ directory
+  become: true
+  ansible.builtin.file:
+    path: /var/www/html/html
+    state: absent
+
+  # Reference webserver role
+
+   Run the cofig script in  tne site.yml to create a new assisgnment for the uat webserver.yml
+
+ using the code below.cd
+  ---
+- hosts: all
+- import_playbook: ../static-assignments/common.yml
+
+- hosts: uat-webservers
+- import_playbook: ../static-assignments/uat-webservers.yml
+  
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/6a6e7877-419f-4785-8b87-d182c0ec2e44)
+
+# commit and test
+
+ All the changes being made on the terminal have to be pushe to the refactor branch created then Aa pull request is made if
+ 
+ the changes are acceptable and are working well to avoid too any errors.
+
+cd /home/ubuntu/ansible-config-mgt
+
+ansible-playbook -i /inventory/uat.yml playbooks/site.yaml
+
+check if both webservers are configured and try reach both of them on the browser.
+
+ You need to log in to the jump server using the agent ssh as shown in the screenshot below.
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/064de45e-1726-46b3-b43c-d885ddd1802d)
+
+using 
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/1db94e8a-3320-41c3-9bfb-6d2436adc66e)
+
+ 
