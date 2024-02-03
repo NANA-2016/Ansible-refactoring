@@ -263,7 +263,11 @@ that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
 # Commit and test.
 
 check if both webservers are configured and try reach both of them on the browser using {http://<uat webserver public ip adress>/index.php}. You can also use the dns name instead aof the public ip.
+##### Reference ip addresses
 
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/29d114c7-e809-47c6-aef1-ae2033a88010)
+
+#### Output.
  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/14e4cf09-9f69-4612-b98b-ef931bd30206)
 
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/2564cad9-1c04-42bf-942b-4e857cae58e4)
