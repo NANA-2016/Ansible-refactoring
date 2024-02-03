@@ -61,7 +61,9 @@ At the same time changes are also made on the Jenkins-Ansible server  and in thi
 
   {Create refactor branch where all of the project wiil  be running. as you make all the changes you need to make. This all ows your work to be neat and easy to go through for all the other team member you are working with before the final changes are made which will be 
 
-  termed as the the desirable results by the person managing the project where now you can send a pull request and merge the changes made to the main project.}
+  termed as the the desirable results by the person managing the project where now you can send a pull request and merge the changes made to the main project.  All the changes being made on the terminal have to be pushed to the refactor branch created then a pull 
+  
+  request is made if the changes are acceptable and are working well to avoid too any errors.}
 
    In playbook, create a folder and name it site.yml which will act as an entry/parent to all other playbooks. (point to 
    
@@ -239,6 +241,12 @@ that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
     path: /var/www/html/html
     state: absent
 
+   Using the code below ,test if the playbook is working on jenkins webserver.
+
+ [ansible-playbook -i /inventory/uat.yml playbooks/site.yml]
+ 
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/579f3847-ea0b-4072-8539-03f8becfb38b)
+
   # Reference webserver role
 
    Run the config script in  tne site.yml to create a new assisgnment for the uat webserver.yml
@@ -253,18 +261,7 @@ that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
   
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/6a6e7877-419f-4785-8b87-d182c0ec2e44)
 
-# Commit and test
-
- All the changes being made on the terminal have to be pushe to the refactor branch created then Aa pull request is made if
- 
- the changes are acceptable and are working well to avoid too any errors.
-
-cd /home/ubuntu/ansible-config-mgt
-
-ansible-playbook -i /inventory/uat.yml playbooks/site.yml
-
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/579f3847-ea0b-4072-8539-03f8becfb38b)
-
+# Commit and test.
 
 check if both webservers are configured and try reach both of them on the browser using {http://<uat webserver public ip adress>/index.php}. You can also use the dns name instead aof the public ip.
 
