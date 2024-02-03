@@ -136,14 +136,10 @@ ansible-playbook -i inventory/dev.yml playbooks/site.yaml
 
  # Configure uat webserver with a role webserver
  
- create 2 webserverscd
+ create 2 webservers
 
-  create a roles directory  in the ansible-config-mgt then inititialise webserver 
+create a roles directory  in the ansible-config-mgt then inititialise webserver 
   
-mkdir roles
-cd roles
-ansible-galaxy init webserver
-
  Expected structure
  
 └── webserver
@@ -179,7 +175,7 @@ ansible-galaxy init webserver
 
  the above configuration as seen on the jump server 
  
-    ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/5816fa76-c487-4861-8ed9-e76ed24f9d19)
+  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/5816fa76-c487-4861-8ed9-e76ed24f9d19)
 
 
    update your uat.yml to set up the 2 uat webservers
@@ -191,14 +187,15 @@ ansible-galaxy init webserver
 
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/7566ae87-5d54-4ca4-92ac-e22cee6b464e)
 
- run vi /etc/ansible/ansible.cfg
+### -config-mgt/role
+
+ run [vi /etc/ansible/ansible.cfg] AND UNCOMMENT roles_path
 
  provide full path to your role directory  so as ANSIBLE CAN KNOW WHERE TO FIND CONFIGURED ROLES
 
- ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/73633142-dc12-4111-823c-aec2033de769)
-
+that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
  
- -config-mgt/role
+
 
   ## Installing apache ie httpd and cloning a repo
   
@@ -244,7 +241,7 @@ ansible-galaxy init webserver
 
   # Reference webserver role
 
-   Run the cofig script in  tne site.yml to create a new assisgnment for the uat webserver.yml
+   Run the config script in  tne site.yml to create a new assisgnment for the uat webserver.yml
 
  using the code below.cd
   ---
@@ -256,7 +253,7 @@ ansible-galaxy init webserver
   
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/6a6e7877-419f-4785-8b87-d182c0ec2e44)
 
-# commit and test
+# Commit and test
 
  All the changes being made on the terminal have to be pushe to the refactor branch created then Aa pull request is made if
  
@@ -264,23 +261,20 @@ ansible-galaxy init webserver
 
 cd /home/ubuntu/ansible-config-mgt
 
-ansible-playbook -i /inventory/uat.yml playbooks/site.yaml
+ansible-playbook -i /inventory/uat.yml playbooks/site.yml
 
-check if both webservers are configured and try reach both of them on the browser.
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/579f3847-ea0b-4072-8539-03f8becfb38b)
 
- You need to log in to the jump server using the agent ssh as shown in the screenshot below.
 
- ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/1db94e8a-3320-41c3-9bfb-6d2436adc66e)
+check if both webservers are configured and try reach both of them on the browser using {http://<uat webserver public ip adress>/index.php}. You can also use the dns name instead aof the public ip.
 
- 
-
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/14e4cf09-9f69-4612-b98b-ef931bd30206)
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/14e4cf09-9f69-4612-b98b-ef931bd30206)
 
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/2564cad9-1c04-42bf-942b-4e857cae58e4)
 
 
-using 
 
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/1db94e8a-3320-41c3-9bfb-6d2436adc66e)
+
+
 
  
