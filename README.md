@@ -1,40 +1,67 @@
-# Ansible-refactoring
+# ANSIBLE REFACTORING AND STATIC ASSIGNMENTS(imports and roles)
 
-## Jenkins job enhancement
+### Activities involved.
 
-# SAVING SPACE ON THE SERVER
+1 .refactor ansible code
 
-## Install pluggings on jenkins without starting jenkins
+2.Create assisgnments.
+
+3.use import functionality which allows to effectively use previouslycreated playbooks in a new playbook(organise your tasks and reuse them when needed)
+
+# Refactoring ansible code by importing other playbooks in site.yml.
+
+## Jenkins job enhancement.
+
+  As every new job done in changes done on a code,creates a new directory and takes up space we always create pluging to sort out these issue which i s done by doing "copy artifact" on jenkins.
+
+
+## Install pluggins on jenkins without starting jenkins
 
 ## Procedure
 
-Jenkins>manage jenkins>manage plugins> then 
-AVailable
+Jenkins>manage jenkins>manage plugins> then on  Available
 search copy artifacts
  Trigger as per the existing project which is ansible 
-nunmber of builds
+nunmber of builds . Configure the Ansible project on jenkins by clicking on discard builds
+ Strategy to be Log rotatin
+ Max builds to keep to be 2 in this project
+ Source code to be nome  Build triggers-Build after othe projects are built-ansiblre
 
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/fee0ffa0-d749-4fc2-a2ac-e6c03a31de58)
+  #### Go on builds
+ Artifacts to copy **
+ Target directory in this case will be /home/ubuntu/ansible-config-artifact
+ Finger print artifacts
+ Then apply and save all the changes made.
 
  end result
  
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9b649b95-df26-42b6-b927-20d3eed46bf0)
 
+ ## created artifact directory
+
+At the same time changes are also made on the Jenkins-Ansible server  and in this case we create a directory  and name it "ansible-config-artifacts"
+
+  Command used is [sudo mkdir/home/ubuntu/ansible-config-artifacts]
+  
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/ec3a57a4-4df9-4b56-aa94-eac63e11028f)
+
  All files will now appear on the /home/ubuntu/ansible-config-artifact
  
  and will be updated with every commit you make on the main branch
 
+  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/186471a1-2dd2-4c52-88df-d5b8877c439c)
 
-# created artifact directory
- 
- ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/ec3a57a4-4df9-4b56-aa94-eac63e11028f)
+  Changing permissions is also done here so that the jenkins can have the permission to save files in the directory using the command 
 
+  [chmod -R 0777 /home/ubuntu/ansible-config-artifact]
 
 # IMPORT PLAYBOOKS
 
  ## Refactoring Ansible code  by importing playbooks into site.yml
 
-  Create refactor branch where all of the project wiil  be running.
+  {Create refactor branch where all of the project wiil  be running. as you make all the changes you need to make. This all ows your work to be neat and easy to go through for all the other team member you are working with before the final changes are made which will be 
+
+  termed as the the desirable results by the person managing the project where now you can send a pull request and merge the changes made to the main project.}
 
    In playbook, create a folder and name it site.yml which will act as an entry/parent to all other playbooks. (point to 
    
@@ -48,8 +75,9 @@ nunmber of builds
 
  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/f8f5294c-0dae-4387-9b2a-2cb7cfda77d3)
 
+# Deleting wireshark.
 
- import common.yml playbook to site.yml
+## import common.yml playbook to site.yml
  ---
 - hosts: all
 - import_playbook: ../static-assignments/common.yml
@@ -161,16 +189,19 @@ ansible-galaxy init webserver
 
 <Web2-UAT-Server-Private-IP-Address> ansible_ssh_user='ec2-user'OR ubuntu
 
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9ff5b07f-08a4-4bc9-8f7c-bbfa574983e4)
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/7566ae87-5d54-4ca4-92ac-e22cee6b464e)
 
  run vi /etc/ansible/ansible.cfg
 
- provide full patht to your role directory  so as ANSIBLE CAN KNOW WHERE TO FINF CONFIGURED ROLES
+ provide full path to your role directory  so as ANSIBLE CAN KNOW WHERE TO FIND CONFIGURED ROLES
 
  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/73633142-dc12-4111-823c-aec2033de769)
 
  
  -config-mgt/role
+
+  ## Installing apache ie httpd and cloning a repo
+  
  CONFIGURE THE main.yml file in the task directory
 
   Run the script below to clone into git hub and install apache 
@@ -239,7 +270,14 @@ check if both webservers are configured and try reach both of them on the browse
 
  You need to log in to the jump server using the agent ssh as shown in the screenshot below.
 
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/064de45e-1726-46b3-b43c-d885ddd1802d)
+ ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/1db94e8a-3320-41c3-9bfb-6d2436adc66e)
+
+ 
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/14e4cf09-9f69-4612-b98b-ef931bd30206)
+
+![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/2564cad9-1c04-42bf-942b-4e857cae58e4)
+
 
 using 
 
