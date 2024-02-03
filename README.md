@@ -20,20 +20,29 @@
 ## Procedure
 
 Jenkins>manage jenkins>manage plugins> then on  Available
+
 search copy artifacts
+
  Trigger as per the existing project which is ansible 
+ 
 nunmber of builds . Configure the Ansible project on jenkins by clicking on discard builds
+
  Strategy to be Log rotatin
+ 
  Max builds to keep to be 2 in this project
+ 
  Source code to be nome  Build triggers-Build after othe projects are built-ansiblre
 
   #### Go on builds
  Artifacts to copy **
+ 
  Target directory in this case will be /home/ubuntu/ansible-config-artifact
+ 
  Finger print artifacts
+ 
  Then apply and save all the changes made.
 
- end result
+ #### end result
  
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9b649b95-df26-42b6-b927-20d3eed46bf0)
 
