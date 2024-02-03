@@ -37,19 +37,18 @@ nunmber of builds . Configure the Ansible project on jenkins by clicking on disc
  
 ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/9b649b95-df26-42b6-b927-20d3eed46bf0)
 
- ## created artifact directory
+ ## Created artifact directory
 
 At the same time changes are also made on the Jenkins-Ansible server  and in this case we create a directory  and name it "ansible-config-artifacts"
 
   Command used is [sudo mkdir/home/ubuntu/ansible-config-artifacts]
+
+   All files will now appear on the /home/ubuntu/ansible-config-artifact
+ 
+ and will be updated with every commit you make on the main branch
   
  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/ec3a57a4-4df9-4b56-aa94-eac63e11028f)
 
- All files will now appear on the /home/ubuntu/ansible-config-artifact
- 
- and will be updated with every commit you make on the main branch
-
-  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/186471a1-2dd2-4c52-88df-d5b8877c439c)
 
   Changing permissions is also done here so that the jenkins can have the permission to save files in the directory using the command 
 
