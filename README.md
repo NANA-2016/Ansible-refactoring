@@ -240,6 +240,8 @@ that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
     path: /var/www/html/html
     state: absent
 
+  ![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/6a6e7877-419f-4785-8b87-d182c0ec2e44)
+
    Using the code below ,test if the playbook is working on jenkins webserver.
 
  [ansible-playbook -i /inventory/uat.yml playbooks/site.yml]
@@ -257,8 +259,6 @@ that is [roles_path=/home/ubuntu/ansible-config-mgt/roles]
 
 - hosts: uat-webservers
 - import_playbook: ../static-assignments/uat-webservers.yml
-  
-![image](https://github.com/NANA-2016/Ansible-refactoring/assets/141503408/6a6e7877-419f-4785-8b87-d182c0ec2e44)
 
 # Commit and test.
 
